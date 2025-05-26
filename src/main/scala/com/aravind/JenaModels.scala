@@ -65,4 +65,9 @@ object JenaModels {
     RDFDataMgr.write(System.out, model, Lang.TURTLE)
     //model.write(System.out, "TURTLE")
   }
+
+  def printDimensions(m: Model): Unit = {
+    println("Total Statements: " + m.size())
+    println("Total Prefixes: " + m.numPrefixes())
+  }
 }
