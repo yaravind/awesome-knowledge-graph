@@ -1,6 +1,7 @@
-package com.aravind.labs.rdf.basic
+package com.aravind.rdf.labs.basic
 
 import com.aravind.JenaModels._
+import com.aravind.rdf.labs.Constants.BaseDataURI
 import org.apache.jena.rdf.model._
 
 /**
@@ -21,7 +22,8 @@ import org.apache.jena.rdf.model._
  */
 object Lab1 {
   def main(args: Array[String]): Unit = {
-    val NamespaceURI = "https://github.com/yaravind/data/labs/basic/lab1#"
+
+    val NamespaceURI = BaseDataURI + "labs/basic/lab1#"
     val m = ModelFactory.createDefaultModel()
 
     //1. Create resources and properties
