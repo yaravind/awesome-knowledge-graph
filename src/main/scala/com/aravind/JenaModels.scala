@@ -1,9 +1,11 @@
 package com.aravind
 
+import org.apache.jena.query.ResultSet
 import org.apache.jena.rdf.model.Model
 import org.apache.jena.riot.{Lang, RDFDataMgr, RDFFormat}
 
 import java.io.FileOutputStream
+import scala.collection.JavaConverters.asScalaIteratorConverter
 
 object JenaModels {
 
@@ -69,5 +71,11 @@ object JenaModels {
   def printDimensions(m: Model): Unit = {
     println("Total Statements: " + m.size())
     println("Total Prefixes: " + m.numPrefixes())
+  }
+
+  def printSOResultSet(rs: ResultSet, subjBindVar: String = "s", objBindVar: String = "o"): Unit = {
+    rs.asScala.foreach {
+      r => println(s"Subj: ${r.get(subjBindVar)}, Obj: ${r.get(objBindVar)}")
+    }
   }
 }
