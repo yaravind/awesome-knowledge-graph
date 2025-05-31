@@ -28,7 +28,7 @@ import scala.collection.JavaConverters._ // For converting Java iterators to Sca
  * </ul>
  */
 object Lab4 {
-  val Lab4DataURI = BaseDataURI + "labs/basic/lab3#"
+  val Lab4DataURI = BaseDataURI + "labs/basic/lab4#"
 
   // 1. Create a Base RDF Model (the explicit facts)
   val baseModel: Model = ModelFactory.createDefaultModel()
