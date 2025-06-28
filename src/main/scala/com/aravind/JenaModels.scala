@@ -9,13 +9,49 @@ import scala.collection.JavaConverters.asScalaIteratorConverter
 
 object JenaModels {
 
-  def printAsXML(model: Model): Unit = {
-    println("\nXML:")
-    RDFDataMgr.write(System.out, model, Lang.RDFXML)
-    //model.write(System.out) //, "RDF/XML"
+  def readXml(path: String = ".", fileName: String): Option[Model] = {
+    try {
+      val m = RDFDataMgr.loadModel(s"$path/$fileName", Lang.RDFXML)
+      if (m.isEmpty)
+        None
+      else
+        Some(m)
+    } catch {
+      case e: Exception =>
+        println(s"Error reading XML file: ${e.getMessage}")
+        None
+    }
   }
 
-  def saveAsXML(model: Model, path: String = ".", fileName: String): Unit = {
+  def readTriple(path: String = ".", fileName: String): Option[Model] = {
+    try {
+      val m = RDFDataMgr.loadModel(s"$path/$fileName", Lang.NTRIPLES)
+      if (m.isEmpty)
+        None
+      else
+        Some(m)
+    } catch {
+      case e: Exception =>
+        println(s"Error reading XML file: ${e.getMessage}")
+        None
+    }
+  }
+
+  def readTurtle(path: String = ".", fileName: String): Option[Model] = {
+    try {
+      val m = RDFDataMgr.loadModel(s"$path/$fileName", Lang.TURTLE)
+      if (m.isEmpty)
+        None
+      else
+        Some(m)
+    } catch {
+      case e: Exception =>
+        println(s"Error reading XML file: ${e.getMessage}")
+        None
+    }
+  }
+
+  def saveAsXML(model: Model, fileName: String, path: String = "."): Unit = {
     val out = new FileOutputStream(s"$path/$fileName.rdf")
     try {
       RDFDataMgr.write(out, model, RDFFormat.RDFXML)
@@ -24,7 +60,7 @@ object JenaModels {
     }
   }
 
-  def saveAsTriple(model: Model, path: String = ".", fileName: String): Unit = {
+  def saveAsTriple(model: Model, fileName: String, path: String = "."): Unit = {
     val out = new FileOutputStream(s"$path/$fileName.nt")
     try {
       RDFDataMgr.write(out, model, RDFFormat.NTRIPLES)
@@ -33,13 +69,19 @@ object JenaModels {
     }
   }
 
-  def saveAsTurtle(model: Model, path: String = ".", fileName: String): Unit = {
+  def saveAsTurtle(model: Model, fileName: String, path: String = "."): Unit = {
     val out = new FileOutputStream(s"$path/$fileName.ttl")
     try {
       RDFDataMgr.write(out, model, RDFFormat.TURTLE)
     } finally {
       out.close()
     }
+  }
+
+  def printAsXML(model: Model): Unit = {
+    println("\nXML:")
+    RDFDataMgr.write(System.out, model, Lang.RDFXML)
+    //model.write(System.out) //, "RDF/XML"
   }
 
   /*
