@@ -12,9 +12,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <encoding>UTF-8</encoding>
-        <scala.version>2.12.20</scala.version>
-        <scala.compat.version>2.12</scala.compat.version>
-        <spec2.version>4.2.0</spec2.version>
+        <scala.version>2.13.0</scala.version>
+        <scala.version.major>2.13</scala.version.major>
+        <scala-maven-plugin.version>4.8.1</scala-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -26,13 +26,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-           <!-- <dependency>
-                <groupId>org.apache.jena</groupId>
-                <artifactId>jena-bom</artifactId>
-                <version>5.4.0</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>-->
+            <!-- <dependency>
+                 <groupId>org.apache.jena</groupId>
+                 <artifactId>jena-bom</artifactId>
+                 <version>5.4.0</version>
+                 <type>pom</type>
+                 <scope>import</scope>
+             </dependency>-->
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -64,20 +64,8 @@
         </dependency>
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_${scala.compat.version}</artifactId>
-            <version>3.0.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.specs2</groupId>
-            <artifactId>specs2-core_${scala.compat.version}</artifactId>
-            <version>${spec2.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.specs2</groupId>
-            <artifactId>specs2-junit_${scala.compat.version}</artifactId>
-            <version>${spec2.version}</version>
+            <artifactId>scalatest_${scala.version.major}</artifactId>
+            <version>3.2.19</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -90,7 +78,7 @@
                 <!-- see http://davidb.github.com/scala-maven-plugin -->
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>${scala-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -99,9 +87,20 @@
                         </goals>
                         <configuration>
                             <args>
+                                <arg>-unchecked</arg>
+                                <arg>-deprecation</arg>
+                                <arg>-explaintypes</arg>
+                                <arg>-Xfuture</arg>
+                                <arg>-dependencyfile</arg>
+                                <arg>-Yno-adapted-args</arg>
+                                <arg>-Ywarn-numeric-widen</arg>
+                                <arg>-Ywarn-value-discard</arg>
+                                <arg>-Ywarn-dead-code</arg>
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
                             </args>
+                            <scalaCompatVersion>${scala.version.major}</scalaCompatVersion>
+                            <scalaVersion>${scala.version}</scalaVersion>
                         </configuration>
                     </execution>
                 </executions>
