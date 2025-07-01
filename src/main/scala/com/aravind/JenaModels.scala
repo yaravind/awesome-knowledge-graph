@@ -1,8 +1,9 @@
 package com.aravind
 
 import org.apache.jena.query.ResultSet
-import org.apache.jena.rdf.model.Model
+import org.apache.jena.rdf.model.{Model, Property, RDFNode, Resource, StmtIterator}
 import org.apache.jena.riot.{Lang, RDFDataMgr, RDFFormat}
+import org.apache.jena.vocabulary.RDFS
 
 import java.io.FileOutputStream
 import scala.collection.JavaConverters.asScalaIteratorConverter
@@ -115,9 +116,63 @@ object JenaModels {
     println("Total Prefixes: " + m.numPrefixes())
   }
 
+  /**
+   * Prints the result set in a simple format with subject and object variables.
+   *
+   * @param rs          ResultSet to print
+   * @param subjBindVar Subject bind variable name used in SPARQL query (default is "s")
+   * @param objBindVar  Object variable name used in SPARQL query (default is "o")
+   */
   def printSOResultSet(rs: ResultSet, subjBindVar: String = "s", objBindVar: String = "o"): Unit = {
     rs.asScala.foreach {
       r => println(s"Subj: ${r.get(subjBindVar)}, Obj: ${r.get(objBindVar)}")
     }
+  }
+
+  def printStatements(m: Model, filterBNodes: Boolean = false): Unit = {
+    val stIter = m.listStatements()
+
+    printStatements(stIter, filterBNodes)
+  }
+
+  def printStatements(stIter: StmtIterator, filterBNodes: Boolean): Unit = {
+    stIter.asScala.toSeq
+      .filterNot(st => filterBNodes && st.getSubject.isAnon)
+      .foreach { st =>
+        val s = st.getSubject
+        val p = st.getPredicate
+        val o = st.getObject
+
+        //println((s.isURIResource, s.hasProperty(RDFS.label), s.isAnon))
+        println(JenaModels.mkPrettyStmt(s, p, o))
+      }
+  }
+
+  def mkPrettyStmt(s: Resource, p: Property, o: RDFNode, addLabel: Boolean = true): String = {
+
+   def labelOrValue(node: RDFNode): String = {
+     val labelOpt =
+       Option(node)
+         .filter(_ => addLabel)
+         .flatMap(n =>
+           if (n.isResource && n.asResource().hasProperty(RDFS.label)) {
+             val label = getLabel(n)
+             if (n.isAnon) Option(label + " (label) " + n.toString) else Option(label + " (label)")
+           }
+           else None
+         )
+     val base = labelOpt.getOrElse(node.toString)
+     if (node.isAnon) s"$base (bnode)" else base
+   }
+
+   val subjStr = labelOrValue(s)
+   val predStr = labelOrValue(p)
+   val objStr = labelOrValue(o)
+
+   s"\u001b[31m $subjStr \u001b[0m \u001b[34m--\u001b[0m \u001b[33m $predStr \u001b[0m \u001b[34m->\u001b[0m \u001b[36m $objStr \u001b[0m"
+ }
+
+  def getLabel(n: RDFNode) = {
+    n.asResource().getProperty(RDFS.label).getObject.toString
   }
 }

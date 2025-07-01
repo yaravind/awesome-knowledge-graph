@@ -9,7 +9,7 @@ import org.apache.jena.vocabulary.{RDF, RDFS, VCARD}
  */
 object App {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
 
     //1. CREATE
     val peopleModel = ModelFactory.createDefaultModel()

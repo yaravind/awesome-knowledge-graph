@@ -2,13 +2,31 @@ package com.aravind.rdf.labs.basic
 
 import com.aravind.JenaModels
 import com.aravind.rdf.labs.Constants.BaseOntologyURI
-import org.apache.jena.query.{QueryExecutionFactory, QueryFactory, ResultSet}
+import com.aravind.rdf.labs.Reasoners
+import com.aravind.rdf.labs.Reasoners.SelectAllRDFType
+import org.apache.jena.query.{QueryExecutionFactory, ResultSet}
 import org.apache.jena.rdf.model.{InfModel, ModelFactory}
 import org.apache.jena.reasoner.{Reasoner, ReasonerRegistry}
 import org.apache.jena.vocabulary.{RDF, VCARD}
 
 import scala.collection.JavaConverters.asScalaIteratorConverter
 
+/**
+ * Objective: Understand how RDFS inference rules can be applied to a model to derive new, implicit facts.
+ *
+ * Concepts Covered:
+ *
+ *  - RDFS Inference Rules (specifically rdfs:subClassOf and rdfs:subPropertyOf rules)
+ *  - org.apache.jena.reasoner.Reasoner
+ *  - org.apache.jena.reasoner.ReasonerRegistry.getRDFSReasoner()
+ *  - org.apache.jena.rdf.model.InfModel
+ *  - Distinguishing between explicit and inferred triples.
+ *
+ * Hints/Tips:
+ *
+ *  - The InfModel does not change the baseModel. It provides a view that includes both explicit and inferred triples.
+ *  - The if (!baseModel.contains(stmt)) check is crucial for identifying which triples were newly inferred.
+ */
 object Lab5 {
   Lab4.main(Array(""))
 
@@ -22,20 +40,8 @@ object Lab5 {
     val inferredModel: InfModel = ModelFactory.createInfModel(reasoner, model)
 
     //Q1: Select all subjects and objects that have rdf:type predicate
-    //We are specifying the full RDF URI instead of using namespace prefix
-    val q1 = QueryFactory.create(
-      s"""
-         |PREFIX rdf: <${RDF.getURI}>
-         |SELECT ?s ?o
-         |WHERE {
-         | ?s rdf:type ?o .
-         |}
-         |""".stripMargin)
-
-    println(s"1. Resultset: $q1")
-    val rs1: ResultSet = QueryExecutionFactory
-      .create(q1, inferredModel)
-      .execSelect()
+    println(s"1. Resultset: $SelectAllRDFType")
+    val rs1: ResultSet = Reasoners.getResultSet(inferredModel, SelectAllRDFType)
     JenaModels.printSOResultSet(rs1)
     rs1.close()
 
@@ -49,10 +55,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"2. Resultset: ${q2}")
-    val rs2: ResultSet = QueryExecutionFactory
-      .create(q2, inferredModel)
-      .execSelect()
-
+    val rs2: ResultSet = Reasoners.getResultSet(inferredModel, q2)
     JenaModels.printSOResultSet(rs2, "person", "device")
     rs2.close()
 
@@ -67,10 +70,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"3. Resultset: ${q3}")
-    val rs3: ResultSet = QueryExecutionFactory
-      .create(q3, inferredModel)
-      .execSelect()
-
+    val rs3: ResultSet = Reasoners.getResultSet(inferredModel, q3)
     rs3.asScala.foreach {
       r => println(s"${r.get("s")}")
     }
@@ -89,9 +89,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"4. Resultset: ${q4}")
-    val rs4: ResultSet = QueryExecutionFactory
-      .create(q4, inferredModel)
-      .execSelect()
+    val rs4: ResultSet = Reasoners.getResultSet(inferredModel, q4)
 
     rs4.asScala.foreach {
       r => println(s"Person Name: ${r.get("personName")}, Phone Type: ${r.get("phoneType")}")
