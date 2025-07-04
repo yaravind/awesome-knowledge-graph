@@ -1,6 +1,6 @@
 package com.aravind.rdf.labs.advanced
 
-import com.aravind.JenaModels
+import com.aravind.{JenaModels, Queries}
 import com.aravind.rdf.labs.Constants.BaseDataURI
 import com.aravind.rdf.labs.Reasoners
 import com.aravind.rdf.labs.Reasoners.{SelectAllRDFType2, SelectAllRDFType3}
@@ -78,7 +78,7 @@ object Lab11 {
     val reasoner = ReasonerRegistry.getRDFSReasoner
     val inferredModel: InfModel = ModelFactory.createInfModel(reasoner, m)
 
-    val rs1: ResultSet = Reasoners.getResultSet(inferredModel, SelectAllRDFType2)
+    val rs1: ResultSet = Queries.getResultSet(inferredModel, SelectAllRDFType2)
     print(
       """Inferred Types (after applying rdfs:domain and rdfs:range):
 
@@ -90,7 +90,7 @@ object Lab11 {
 
     println("All data")
 
-    val rs2: ResultSet = Reasoners.getResultSet(m, SelectAllRDFType3)
+    val rs2: ResultSet = Queries.getResultSet(m, SelectAllRDFType3)
     println()
     JenaModels.printSOResultSet(rs2)
 
@@ -98,7 +98,7 @@ object Lab11 {
     val queryString =
       s"""PREFIX rdf: <${RDF.getURI}>
          |SELECT ?subject ?type WHERE { ?subject rdf:type ?type }""".stripMargin
-    val rs3: ResultSet = Reasoners.getResultSet(m, queryString)
+    val rs3: ResultSet = Queries.getResultSet(m, queryString)
     println()
 
     Using(QueryExecutionFactory.create(queryString, inferredModel)) { qexec =>

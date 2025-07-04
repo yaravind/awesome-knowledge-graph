@@ -1,6 +1,6 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.JenaModels
+import com.aravind.{JenaModels, Queries}
 import com.aravind.rdf.labs.Constants.BaseOntologyURI
 import com.aravind.rdf.labs.Reasoners
 import com.aravind.rdf.labs.Reasoners.SelectAllRDFType
@@ -41,7 +41,7 @@ object Lab5 {
 
     //Q1: Select all subjects and objects that have rdf:type predicate
     println(s"1. Resultset: $SelectAllRDFType")
-    val rs1: ResultSet = Reasoners.getResultSet(inferredModel, SelectAllRDFType)
+    val rs1: ResultSet = Queries.getResultSet(inferredModel, SelectAllRDFType)
     JenaModels.printSOResultSet(rs1)
     rs1.close()
 
@@ -55,7 +55,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"2. Resultset: ${q2}")
-    val rs2: ResultSet = Reasoners.getResultSet(inferredModel, q2)
+    val rs2: ResultSet = Queries.getResultSet(inferredModel, q2)
     JenaModels.printSOResultSet(rs2, "person", "device")
     rs2.close()
 
@@ -70,7 +70,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"3. Resultset: ${q3}")
-    val rs3: ResultSet = Reasoners.getResultSet(inferredModel, q3)
+    val rs3: ResultSet = Queries.getResultSet(inferredModel, q3)
     rs3.asScala.foreach {
       r => println(s"${r.get("s")}")
     }
@@ -89,7 +89,7 @@ object Lab5 {
          |""".stripMargin
 
     println(s"4. Resultset: ${q4}")
-    val rs4: ResultSet = Reasoners.getResultSet(inferredModel, q4)
+    val rs4: ResultSet = Queries.getResultSet(inferredModel, q4)
 
     rs4.asScala.foreach {
       r => println(s"Person Name: ${r.get("personName")}, Phone Type: ${r.get("phoneType")}")
