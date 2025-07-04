@@ -45,5 +45,4 @@ object Reasoners {
        | )
        |}
        |""".stripMargin)
-
 }
