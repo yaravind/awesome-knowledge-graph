@@ -1,7 +1,7 @@
 package com.aravind.rdf.labs
 
 import org.apache.jena.query.{Query, QueryExecutionFactory, QueryFactory}
-import org.apache.jena.rdf.model.{InfModel, Model}
+import org.apache.jena.rdf.model.Model
 import org.apache.jena.vocabulary.RDF
 
 object Reasoners {
@@ -46,22 +46,4 @@ object Reasoners {
        |}
        |""".stripMargin)
 
-  def getResultSet(inferredModel: Model, q: Query) = {
-    QueryExecutionFactory
-      .create(q, inferredModel)
-      .execSelect()
-  }
-
-  /* def getResultSetWithFilters(inferredModel: InfModel, q: Query, subj) = {
-     QueryExecutionFactory
-       .create(q, inferredModel)
-       .execSelect()
-   }*/
-
-  def getResultSet(inferredModel: Model, qStr: String) = {
-    val q = QueryFactory.create(qStr.stripMargin)
-    QueryExecutionFactory
-      .create(q, inferredModel)
-      .execSelect()
-  }
 }
