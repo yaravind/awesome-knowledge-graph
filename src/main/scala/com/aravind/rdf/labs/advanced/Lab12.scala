@@ -1,7 +1,7 @@
 package com.aravind.rdf.labs.advanced
 
 import com.aravind.JenaModels
-import com.aravind.rdf.labs.Constants.BaseDataURI
+import com.aravind.rdf.labs.Constants.{BaseDataURI, BaseOntologyURI}
 import org.apache.jena.datatypes.xsd.XSDDatatype
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.vocabulary.RDF
@@ -22,9 +22,9 @@ object Lab12 {
     val m = ModelFactory.createDefaultModel()
 
     val stmt = m.createStatement(
-      m.createResource(Lab11DataURI + "Boston"),
+      m.createResource(BaseOntologyURI + "Boston"),
       m.createProperty(Lab11DataURI + "hasPopulation"),
-      m.createResource(Lab11DataURI + "600000")
+      m.createTypedLiteral(6000000, XSDDatatype.XSDint) // Boston has a population of 6 million
     )
 
     m.add(stmt)
