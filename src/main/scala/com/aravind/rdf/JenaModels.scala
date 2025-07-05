@@ -167,9 +167,14 @@ object JenaModels {
    * @param subjBindVar Subject bind variable name used in SPARQL query (default is "s")
    * @param objBindVar  Object variable name used in SPARQL query (default is "o")
    */
-  def printSOResultSet(rs: ResultSet, subjBindVar: String = "s", objBindVar: String = "o"): Unit = {
-    rs.asScala.foreach {
-      r => println(s"Subj: ${r.get(subjBindVar)}, Obj: ${r.get(objBindVar)}")
+  def printSOResultSet(rs: Try[ResultSet], subjBindVar: String = "s", objBindVar: String = "o"): Unit = {
+    rs match {
+      case scala.util.Success(resultSet) =>
+        resultSet.asScala.foreach {
+          r => println(s"Subj: ${r.get(subjBindVar)}, Obj: ${r.get(objBindVar)}")
+        }
+      case scala.util.Failure(exception) =>
+        println(s"Failed to execute query: ${exception.getMessage}")
     }
   }
 
@@ -181,9 +186,14 @@ object JenaModels {
    * @param predBindVar Predicate bind variable name used in SPARQL query (default is "p")
    * @param objBindVar  Object variable name used in SPARQL query (default is "o")
    */
-  def printSPOResultSet(rs: ResultSet, subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
-    rs.asScala.foreach {
-      r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
+  def printSPOResultSet(rs: Try[ResultSet], subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
+    rs match {
+      case scala.util.Success(resultSet) =>
+        resultSet.asScala.foreach {
+          r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
+        }
+      case scala.util.Failure(exception) =>
+        println(s"Failed to execute query: ${exception.getMessage}")
     }
   }
 
@@ -196,9 +206,14 @@ object JenaModels {
    * @param predBindVar  Predicate bind variable name used in SPARQL query (default is "p")
    * @param objBindVar   Object variable name used in SPARQL query (default is "o")
    */
-  def printGSPOResultSet(rs: ResultSet, graphBindVar: String = "g", subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
-    rs.asScala.foreach {
-      r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
+  def printGSPOResultSet(rs: Try[ResultSet], graphBindVar: String = "g", subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
+    rs match {
+      case scala.util.Success(resultSet) =>
+        resultSet.asScala.foreach {
+          r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
+        }
+      case scala.util.Failure(exception) =>
+        println(s"Failed to execute query: ${exception.getMessage}")
     }
   }
 

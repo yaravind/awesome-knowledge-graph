@@ -1,14 +1,15 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.rdf.{JenaModels, Queries, Reasoners}
+import com.aravind.rdf.Reasoners.SelectAllRDFType
 import com.aravind.rdf.labs.Constants.BaseOntologyURI
-import Reasoners.SelectAllRDFType
-import org.apache.jena.query.{QueryExecutionFactory, ResultSet}
+import com.aravind.rdf.{JenaModels, Queries}
+import org.apache.jena.query.ResultSet
 import org.apache.jena.rdf.model.{InfModel, ModelFactory}
 import org.apache.jena.reasoner.{Reasoner, ReasonerRegistry}
 import org.apache.jena.vocabulary.{RDF, VCARD}
 
 import scala.collection.JavaConverters.asScalaIteratorConverter
+import scala.util.Try
 
 /**
  * Objective: Understand how RDFS inference rules can be applied to a model to derive new, implicit facts.
@@ -40,9 +41,9 @@ object Lab5 {
 
     //Q1: Select all subjects and objects that have rdf:type predicate
     println(s"1. Resultset: $SelectAllRDFType")
-    val rs1: ResultSet = Queries.getResultSet(inferredModel, SelectAllRDFType)
+    val rs1: Try[ResultSet] = Queries.getResultSet(inferredModel, SelectAllRDFType)
     JenaModels.printSOResultSet(rs1)
-    rs1.close()
+    rs1.get.close()
 
     //Q2: find all individuals who hasDevice something, and what that device is
     val q2 =
@@ -54,9 +55,9 @@ object Lab5 {
          |""".stripMargin
 
     println(s"2. Resultset: ${q2}")
-    val rs2: ResultSet = Queries.getResultSet(inferredModel, q2)
+    val rs2: Try[ResultSet] = Queries.getResultSet(inferredModel, q2)
     JenaModels.printSOResultSet(rs2, "person", "device")
-    rs2.close()
+    rs2.get.close()
 
     //Q3: find all resources that are of type device:Smartphone
     val q3 =
@@ -69,11 +70,11 @@ object Lab5 {
          |""".stripMargin
 
     println(s"3. Resultset: ${q3}")
-    val rs3: ResultSet = Queries.getResultSet(inferredModel, q3)
-    rs3.asScala.foreach {
+    val rs3: Try[ResultSet] = Queries.getResultSet(inferredModel, q3)
+    rs3.get.asScala.foreach {
       r => println(s"${r.get("s")}")
     }
-    rs3.close()
+    rs3.get.close()
 
     //4. find the name of a person and the type of cell phone they own
     val q4 =
@@ -88,11 +89,11 @@ object Lab5 {
          |""".stripMargin
 
     println(s"4. Resultset: ${q4}")
-    val rs4: ResultSet = Queries.getResultSet(inferredModel, q4)
+    val rs4: Try[ResultSet] = Queries.getResultSet(inferredModel, q4)
 
-    rs4.asScala.foreach {
+    rs4.get.asScala.foreach {
       r => println(s"Person Name: ${r.get("personName")}, Phone Type: ${r.get("phoneType")}")
     }
-    rs4.close()
+    rs4.get.close()
   }
 }

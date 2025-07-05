@@ -1,15 +1,15 @@
 package com.aravind.rdf.labs.advanced
 
-import com.aravind.rdf.{JenaModels, Queries, Reasoners}
+import com.aravind.rdf.Reasoners.{SelectAllRDFType2, SelectAllRDFType3}
 import com.aravind.rdf.labs.Constants.BaseDataURI
-import Reasoners.{SelectAllRDFType2, SelectAllRDFType3}
+import com.aravind.rdf.{JenaModels, Queries}
 import org.apache.jena.datatypes.xsd.XSDDatatype
 import org.apache.jena.query.{QueryExecutionFactory, ResultSet}
 import org.apache.jena.rdf.model.{InfModel, ModelFactory}
 import org.apache.jena.reasoner.ReasonerRegistry
 import org.apache.jena.vocabulary.{RDF, RDFS, XSD}
 
-import scala.util.Using
+import scala.util.{Try, Using}
 
 /**
  * Objective: Deeper dive into how `rdfs:domain`` and `rdfs:range`` statements can lead to type inference when used
@@ -77,7 +77,7 @@ object Lab11 {
     val reasoner = ReasonerRegistry.getRDFSReasoner
     val inferredModel: InfModel = ModelFactory.createInfModel(reasoner, m)
 
-    val rs1: ResultSet = Queries.getResultSet(inferredModel, SelectAllRDFType2)
+    val rs1: Try[ResultSet] = Queries.getResultSet(inferredModel, SelectAllRDFType2)
     print(
       """Inferred Types (after applying rdfs:domain and rdfs:range):
 
@@ -89,7 +89,7 @@ object Lab11 {
 
     println("All data")
 
-    val rs2: ResultSet = Queries.getResultSet(m, SelectAllRDFType3)
+    val rs2: Try[ResultSet] = Queries.getResultSet(m, SelectAllRDFType3)
     println()
     JenaModels.printSOResultSet(rs2)
 
@@ -97,14 +97,14 @@ object Lab11 {
     val queryString =
       s"""PREFIX rdf: <${RDF.getURI}>
          |SELECT ?subject ?type WHERE { ?subject rdf:type ?type }""".stripMargin
-    val rs3: ResultSet = Queries.getResultSet(m, queryString)
+    val rs3: Try[ResultSet] = Queries.getResultSet(m, queryString)
     println()
 
     Using(QueryExecutionFactory.create(queryString, inferredModel)) { qexec =>
       println("execSelect on inferred model")
       val results = qexec.execSelect()
 
-      while (rs3.hasNext) {
+      while (rs3.get.hasNext) {
         val soln = results.nextSolution()
         val subject = soln.getResource("subject")
         val typeRes = soln.getResource("type")
