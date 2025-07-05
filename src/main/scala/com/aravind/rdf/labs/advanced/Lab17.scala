@@ -24,7 +24,7 @@ import org.apache.jena.rdf.model.ModelFactory
  */
 object Lab17 {
   def main(args: Array[String]): Unit = {
-    val Lab11DataURI = BaseDataURI + "labs/advanced/lab17#"
+    val Lab17DataURI = BaseDataURI + "labs/advanced/lab17#"
 
     val defaultGraph = ModelFactory.createDefaultModel()
     val graphA = ModelFactory.createDefaultModel()
@@ -33,30 +33,30 @@ object Lab17 {
     val dataset = DatasetFactory.create()
 
     //Add fact to default graph
-    defaultGraph.add(defaultGraph.createResource(Lab11DataURI + "Vehicle"),
-      defaultGraph.createProperty(Lab11DataURI + "hasColor"),
+    defaultGraph.add(defaultGraph.createResource(Lab17DataURI + "Vehicle"),
+      defaultGraph.createProperty(Lab17DataURI + "hasColor"),
       defaultGraph.createLiteral("Black"))
     println("Default Graph:")
     JenaModels.printAsTurtle(defaultGraph)
 
     //ex:PersonA ex:status "Active"
-    graphA.add(graphA.createResource(Lab11DataURI + "PersonA"),
-      graphA.createProperty(Lab11DataURI + "status"),
+    graphA.add(graphA.createResource(Lab17DataURI + "PersonA"),
+      graphA.createProperty(Lab17DataURI + "status"),
       graphA.createLiteral("Active"))
     println("Graph A:")
     JenaModels.printAsTurtle(graphA)
 
     //ex:PersonB ex:status "Inactive" - demonstrate conflicting info across graphs
-    graphB.add(graphB.createResource(Lab11DataURI + "PersonA"),
-      graphB.createProperty(Lab11DataURI + "status"),
+    graphB.add(graphB.createResource(Lab17DataURI + "PersonA"),
+      graphB.createProperty(Lab17DataURI + "status"),
       graphB.createLiteral("Inactive"))
     println("Graph B:")
     JenaModels.printAsTurtle(graphB)
 
     //Add graphs to dataset
     dataset.setDefaultModel(defaultGraph)
-    val GraphAName = Lab11DataURI + "GraphA"
-    val GraphBName = Lab11DataURI + "GraphB"
+    val GraphAName = Lab17DataURI + "GraphA"
+    val GraphBName = Lab17DataURI + "GraphB"
     dataset.addNamedModel(GraphAName, graphA)
     dataset.addNamedModel(GraphBName, graphB)
 

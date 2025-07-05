@@ -22,12 +22,12 @@ import org.apache.jena.rdf.model.ModelFactory
  */
 object Lab13 {
   def main(args: Array[String]): Unit = {
-    val Lab11DataURI = BaseDataURI + "labs/advanced/lab13#"
+    val Lab13DataURI = BaseDataURI + "labs/advanced/lab13#"
 
     val m = ModelFactory.createDefaultModel()
 
     //Person interests
-    val personA = m.createResource(Lab11DataURI + "PersonA")
+    val personA = m.createResource(Lab13DataURI + "PersonA")
     val interestsProp = m.createProperty(BaseOntologyURI + "hasInterest")
 
     val interestContainer = m.createBag()
@@ -41,7 +41,7 @@ object Lab13 {
 
     //Recipe has sequence of steps - ordered collection: Seq
     //Seq allows duplicates, but is ordered
-    val recipeA = m.createResource(Lab11DataURI + "RecipeA")
+    val recipeA = m.createResource(Lab13DataURI + "RecipeA")
     val stepsProp = m.createProperty(BaseOntologyURI + "hasStep")
     val stepsContainer = m.createSeq()
     stepsContainer.add(m.createLiteral("Step 1"))
@@ -53,7 +53,7 @@ object Lab13 {
     JenaModels.printAsTurtle(m)
 
     //Ordered - Alternatives
-    val personB = m.createResource(Lab11DataURI + "PersonB")
+    val personB = m.createResource(Lab13DataURI + "PersonB")
     val preferredContactProp = m.createProperty(BaseOntologyURI + "preferredContactMethod")
     val contactContainer = m.createAlt()
     contactContainer.add(m.createLiteral("Email"))

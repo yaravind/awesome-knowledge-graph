@@ -17,13 +17,13 @@ import org.apache.jena.vocabulary.RDF
  */
 object Lab12 {
   def main(args: Array[String]): Unit = {
-    val Lab11DataURI = BaseDataURI + "labs/advanced/lab12#"
+    val Lab12DataURI = BaseDataURI + "labs/advanced/lab12#"
 
     val m = ModelFactory.createDefaultModel()
 
     val stmt = m.createStatement(
       m.createResource(BaseOntologyURI + "Boston"),
-      m.createProperty(Lab11DataURI + "hasPopulation"),
+      m.createProperty(Lab12DataURI + "hasPopulation"),
       m.createTypedLiteral(6000000, XSDDatatype.XSDint) // Boston has a population of 6 million
     )
 
