@@ -1,6 +1,6 @@
 package com.aravind
 
-import org.apache.jena.query.{Query, QueryExecutionFactory, QueryFactory}
+import org.apache.jena.query.{Dataset, Query, QueryExecutionFactory, QueryFactory}
 import org.apache.jena.rdf.model.Model
 
 object Queries {
@@ -15,6 +15,13 @@ object Queries {
     val q = QueryFactory.create(qStr.stripMargin)
     QueryExecutionFactory
       .create(q, m)
+      .execSelect()
+  }
+
+  def getResultSet(d: Dataset, qStr: String) = {
+    val q = QueryFactory.create(qStr.stripMargin)
+    QueryExecutionFactory
+      .create(q, d)
       .execSelect()
   }
 }

@@ -1,7 +1,7 @@
 package com.aravind
 
-import org.apache.jena.query.ResultSet
-import org.apache.jena.rdf.model.{Model, Property, RDFNode, Resource, StmtIterator}
+import org.apache.jena.query.{Dataset, ResultSet}
+import org.apache.jena.rdf.model._
 import org.apache.jena.riot.{Lang, RDFDataMgr, RDFFormat}
 import org.apache.jena.vocabulary.RDFS
 
@@ -111,6 +111,21 @@ object JenaModels {
     //model.write(System.out, "TURTLE")
   }
 
+  def printDatasetAsTrix(dataset: Dataset): Unit = {
+    println("\nTRIX:")
+    RDFDataMgr.write(System.out, dataset, Lang.TRIX)
+  }
+
+  def printDatasetAsTrig(dataset: Dataset): Unit = {
+    println("\nTRIG:")
+    RDFDataMgr.write(System.out, dataset, Lang.TRIG)
+  }
+
+  def printDatasetAsJSONLD11(dataset: Dataset): Unit = {
+    println("\nJSONLD11:")
+    RDFDataMgr.write(System.out, dataset, Lang.JSONLD11)
+  }
+
   def printDimensions(m: Model): Unit = {
     println("Total Statements: " + m.size())
     println("Total Prefixes: " + m.numPrefixes())
@@ -126,6 +141,35 @@ object JenaModels {
   def printSOResultSet(rs: ResultSet, subjBindVar: String = "s", objBindVar: String = "o"): Unit = {
     rs.asScala.foreach {
       r => println(s"Subj: ${r.get(subjBindVar)}, Obj: ${r.get(objBindVar)}")
+    }
+  }
+
+  /**
+   * Prints the result set in a simple format with subject, predicate and object variables.
+   *
+   * @param rs          ResultSet to print
+   * @param subjBindVar Subject bind variable name used in SPARQL query (default is "s")
+   * @param predBindVar Predicate bind variable name used in SPARQL query (default is "p")
+   * @param objBindVar  Object variable name used in SPARQL query (default is "o")
+   */
+  def printSPOResultSet(rs: ResultSet, subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
+    rs.asScala.foreach {
+      r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
+    }
+  }
+
+  /**
+   * Prints the result set in a simple format across all graphs of a Dataset with graph, subject, predicate and object variables.
+   *
+   * @param rs           ResultSet to print
+   * @param graphBindVar Graph bind variable name used in SPARQL query (default is "g")
+   * @param subjBindVar  Subject bind variable name used in SPARQL query (default is "s")
+   * @param predBindVar  Predicate bind variable name used in SPARQL query (default is "p")
+   * @param objBindVar   Object variable name used in SPARQL query (default is "o")
+   */
+  def printGSPOResultSet(rs: ResultSet, graphBindVar: String = "g", subjBindVar: String = "s", predBindVar: String = "p", objBindVar: String = "o"): Unit = {
+    rs.asScala.foreach {
+      r => println(s"Subj: ${r.get(subjBindVar)}, Pred: ${r.get(predBindVar)}, Obj: ${r.get(objBindVar)}")
     }
   }
 
@@ -150,27 +194,27 @@ object JenaModels {
 
   def mkPrettyStmt(s: Resource, p: Property, o: RDFNode, addLabel: Boolean = true): String = {
 
-   def labelOrValue(node: RDFNode): String = {
-     val labelOpt =
-       Option(node)
-         .filter(_ => addLabel)
-         .flatMap(n =>
-           if (n.isResource && n.asResource().hasProperty(RDFS.label)) {
-             val label = getLabel(n)
-             if (n.isAnon) Option(label + " (label) " + n.toString) else Option(label + " (label)")
-           }
-           else None
-         )
-     val base = labelOpt.getOrElse(node.toString)
-     if (node.isAnon) s"$base (bnode)" else base
-   }
+    def labelOrValue(node: RDFNode): String = {
+      val labelOpt =
+        Option(node)
+          .filter(_ => addLabel)
+          .flatMap(n =>
+            if (n.isResource && n.asResource().hasProperty(RDFS.label)) {
+              val label = getLabel(n)
+              if (n.isAnon) Option(label + " (label) " + n.toString) else Option(label + " (label)")
+            }
+            else None
+          )
+      val base = labelOpt.getOrElse(node.toString)
+      if (node.isAnon) s"$base (bnode)" else base
+    }
 
-   val subjStr = labelOrValue(s)
-   val predStr = labelOrValue(p)
-   val objStr = labelOrValue(o)
+    val subjStr = labelOrValue(s)
+    val predStr = labelOrValue(p)
+    val objStr = labelOrValue(o)
 
-   s"\u001b[31m $subjStr \u001b[0m \u001b[34m--\u001b[0m \u001b[33m $predStr \u001b[0m \u001b[34m->\u001b[0m \u001b[36m $objStr \u001b[0m"
- }
+    s"\u001b[31m $subjStr \u001b[0m \u001b[34m--\u001b[0m \u001b[33m $predStr \u001b[0m \u001b[34m->\u001b[0m \u001b[36m $objStr \u001b[0m"
+  }
 
   def getLabel(n: RDFNode) = {
     n.asResource().getProperty(RDFS.label).getObject.toString
