@@ -1,5 +1,7 @@
 package com.aravind.rdf
 
+import org.apache.jena.datatypes.DatatypeFormatException
+import org.apache.jena.datatypes.xsd.XSDDatatype
 import org.apache.jena.query.{Dataset, ResultSet}
 import org.apache.jena.rdf.model._
 import org.apache.jena.riot.{Lang, RDFDataMgr, RDFFormat}
@@ -7,8 +9,30 @@ import org.apache.jena.vocabulary.RDFS
 
 import java.io.FileOutputStream
 import scala.collection.JavaConverters.asScalaIteratorConverter
+import scala.util.{Failure, Try}
 
 object JenaModels {
+  /**
+   * Adds a validated literal to the model. If the literal is invalid for the specified datatype, it will not be added.
+   *
+   * @param model       The Jena model to which the literal will be added.
+   * @param subjectURI  The URI of the subject resource.
+   * @param propertyURI The URI of the property.
+   * @param value       The value of the literal to be added.
+   * @param datatype    The XSD datatype of the literal.
+   * @return A Try[Unit] indicating success or failure.
+   */
+  def addValidatedLiteral(model: Model, subjectURI: String, propertyURI: String, value: String, datatype: XSDDatatype): Try[Unit] = {
+    Try {
+      // Validate the literal by attempting to parse it
+      datatype.parse(value)
+      model.add(model.createResource(subjectURI), model.createProperty(propertyURI), model.createTypedLiteral(value, datatype))
+    } recoverWith {
+      case e: DatatypeFormatException =>
+        println(s"Invalid literal: $value for datatype: ${datatype.getURI}")
+        Failure(e)
+    }
+  }
 
   def readXml(path: String = ".", fileName: String): Option[Model] = {
     try {
