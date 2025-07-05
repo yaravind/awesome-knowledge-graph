@@ -1,7 +1,7 @@
 package com.aravind.rdf.labs.advanced
 
 import com.aravind.rdf.labs.Constants.BaseDataURI
-import com.aravind.{JenaModels, Queries}
+import com.aravind.rdf.{JenaModels, Queries}
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.rdf.model.ModelFactory
 

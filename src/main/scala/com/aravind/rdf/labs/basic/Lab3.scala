@@ -1,6 +1,6 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.JenaModels.{printAsTurtle, printAsXML}
+import com.aravind.rdf.JenaModels.{printAsTurtle, printAsXML}
 import com.aravind.rdf.labs.Constants.{BaseDataURI, BaseOntologyURI}
 import org.apache.jena.rdf.model._
 import org.apache.jena.vocabulary.{RDF, RDFS, VCARD, VCARD4}

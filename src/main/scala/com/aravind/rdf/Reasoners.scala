@@ -1,7 +1,6 @@
-package com.aravind.rdf.labs
+package com.aravind.rdf
 
-import org.apache.jena.query.{Query, QueryExecutionFactory, QueryFactory}
-import org.apache.jena.rdf.model.Model
+import org.apache.jena.query.{Query, QueryFactory}
 import org.apache.jena.vocabulary.RDF
 
 object Reasoners {

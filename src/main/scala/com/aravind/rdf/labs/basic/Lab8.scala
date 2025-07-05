@@ -1,6 +1,6 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.JenaModels
+import com.aravind.rdf.JenaModels
 import com.aravind.rdf.labs.Constants.{BaseDataURI, BaseOntologyURI}
 import org.apache.jena.rdf.model._
 import org.apache.jena.vocabulary.{RDF, RDFS, VCARD}

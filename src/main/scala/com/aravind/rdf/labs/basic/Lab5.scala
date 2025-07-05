@@ -1,9 +1,8 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.{JenaModels, Queries}
+import com.aravind.rdf.{JenaModels, Queries, Reasoners}
 import com.aravind.rdf.labs.Constants.BaseOntologyURI
-import com.aravind.rdf.labs.Reasoners
-import com.aravind.rdf.labs.Reasoners.SelectAllRDFType
+import Reasoners.SelectAllRDFType
 import org.apache.jena.query.{QueryExecutionFactory, ResultSet}
 import org.apache.jena.rdf.model.{InfModel, ModelFactory}
 import org.apache.jena.reasoner.{Reasoner, ReasonerRegistry}

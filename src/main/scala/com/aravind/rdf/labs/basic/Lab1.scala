@@ -1,6 +1,6 @@
 package com.aravind.rdf.labs.basic
 
-import com.aravind.JenaModels._
+import com.aravind.rdf.JenaModels._
 import com.aravind.rdf.labs.Constants.BaseDataURI
 import org.apache.jena.rdf.model._
 

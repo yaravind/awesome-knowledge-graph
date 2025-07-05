@@ -1,4 +1,4 @@
-package com.aravind
+package com.aravind.rdf
 
 import org.apache.jena.query.{Dataset, ResultSet}
 import org.apache.jena.rdf.model._

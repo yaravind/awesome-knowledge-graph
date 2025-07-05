@@ -1,4 +1,4 @@
-package com.aravind
+package com.aravind.rdf
 
 import org.apache.jena.query.{Dataset, Query, QueryExecutionFactory, QueryFactory}
 import org.apache.jena.rdf.model.Model
