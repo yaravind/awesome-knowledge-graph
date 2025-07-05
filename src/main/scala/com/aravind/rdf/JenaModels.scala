@@ -26,7 +26,12 @@ object JenaModels {
     Try {
       // Validate the literal by attempting to parse it
       datatype.parse(value)
-      model.add(model.createResource(subjectURI), model.createProperty(propertyURI), model.createTypedLiteral(value, datatype))
+      model.add(model.createResource(subjectURI),
+        model.createProperty(propertyURI),
+        model.createTypedLiteral(value, datatype))
+      //The issue is that model.add(...) returns a Model, but your function should return Try[Unit].
+      //To fix this, add an explicit () after the add call so the block returns Unit.
+      ()
     } recoverWith {
       case e: DatatypeFormatException =>
         println(s"Invalid literal: $value for datatype: ${datatype.getURI}")
