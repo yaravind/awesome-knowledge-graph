@@ -1,11 +1,8 @@
 package com.aravind.linkeddata.owl.labs.basic
 
-import com.aravind.linkeddata.Constants
+import com.aravind.linkeddata.owl.labs.basic.CompanyOntology._
 import com.aravind.linkeddata.rdf.JenaModels
 import org.apache.jena.datatypes.xsd.XSDDatatype
-import org.apache.jena.ontology.{OntModel, OntModelSpec}
-import org.apache.jena.rdf.model.ModelFactory
-import org.apache.jena.vocabulary.XSD
 
 /**
  * Objective: Learn how to create a foundational OWL ontology with classes, properties, and individuals using Apache Jena.
@@ -21,53 +18,27 @@ import org.apache.jena.vocabulary.XSD
  *
  */
 object Lab1Foundational {
-  val NS = Constants.BaseOntologyURI + "#company-ontology"
 
   def main(args: Array[String]): Unit = {
-    val m: OntModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM)
-    m.setNsPrefix("comp", NS)
-    m.setNsPrefix("xsd", XSD.getURI)
 
-    //1. Define core OWL classes
-    val empClass = m.createClass(NS + "Employee")
-    val deptClass = m.createClass(NS + "Department")
-    val projClass = m.createClass(NS + "Project")
     println(s"Defined classes: ${empClass.getLocalName}, ${deptClass.getLocalName}, ${projClass.getLocalName}")
+    println(s"Defined object properties: ${worksInProp.getLocalName}, ${managesProp.getLocalName}")
+    println(s"Defined datatype properties: ${hasNameProp.getLocalName}, ${hasBudgetProp.getLocalName}")
 
     //2. Create individuals (instances)
-    val john = m.createIndividual(NS + "JohnDoe", empClass)
-    val jane = m.createIndividual(NS + "JaneSmith", empClass)
-    val peter = m.createIndividual(NS + "PeterJones", empClass)
+    val john = CompanyModel.createIndividual(CompanyOntologyNS + "JohnDoe", empClass)
+    val jane = CompanyModel.createIndividual(CompanyOntologyNS + "JaneSmith", empClass)
+    val peter = CompanyModel.createIndividual(CompanyOntologyNS + "PeterJones", empClass)
 
-    val itDept = m.createIndividual(NS + "Information Tech", deptClass)
-    val hrDept = m.createIndividual(NS + "HumanResources", deptClass)
-    val marketing = m.createIndividual(NS + "Marketing", deptClass)
+    val itDept = CompanyModel.createIndividual(CompanyOntologyNS + "Information Tech", deptClass)
+    val hrDept = CompanyModel.createIndividual(CompanyOntologyNS + "HumanResources", deptClass)
+    val marketing = CompanyModel.createIndividual(CompanyOntologyNS + "Marketing", deptClass)
 
-    val webProj = m.createIndividual(NS + "WebRedesign", projClass)
-    val newProdProj = m.createIndividual(NS + "NewProductLaunch", projClass)
-    val erpProj = m.createIndividual(NS + "ERPImplementation", projClass)
+    val webProj = CompanyModel.createIndividual(CompanyOntologyNS + "WebRedesign", projClass)
+    val newProdProj = CompanyModel.createIndividual(CompanyOntologyNS + "NewProductLaunch", projClass)
+    val erpProj = CompanyModel.createIndividual(CompanyOntologyNS + "ERPImplementation", projClass)
 
     println(s"Created individuals: ${john.getLocalName}, ${jane.getLocalName}, ${peter.getLocalName}")
-
-    //3.1 Create object properties
-    val worksInProp = m.createObjectProperty(NS + "worksIn")
-    worksInProp.addDomain(empClass)
-    worksInProp.addRange(deptClass)
-
-    val managesProp = m.createObjectProperty(NS + "manages")
-    managesProp.addDomain(empClass)
-    managesProp.addRange(projClass)
-    println(s"Defined object properties: ${worksInProp.getLocalName}, ${managesProp.getLocalName}")
-
-    //3.2 Create DataType properties
-    val hasNameProp = m.createDatatypeProperty(NS + "hasName")
-    hasNameProp.addDomain(empClass)
-    hasNameProp.addRange(XSD.xstring)
-
-    val hasBudgetProp = m.createDatatypeProperty(NS + "hasBudget")
-    hasBudgetProp.addDomain(projClass)
-    hasBudgetProp.addRange(XSD.decimal)
-    println(s"Defined datatype properties: ${hasNameProp.getLocalName}, ${hasBudgetProp.getLocalName}")
 
     //4. Populate data
     john.addProperty(hasNameProp, "John Doe")
@@ -81,9 +52,9 @@ object Lab1Foundational {
     jane.addProperty(managesProp, webProj)
     john.addProperty(managesProp, erpProj)
 
-    webProj.addProperty(hasBudgetProp, m.createTypedLiteral(150000.0, XSDDatatype.XSDdecimal))
-    newProdProj.addProperty(hasBudgetProp, m.createTypedLiteral(250000.0, XSDDatatype.XSDdecimal))
-    erpProj.addProperty(hasBudgetProp, m.createTypedLiteral(120000.0, XSDDatatype.XSDdecimal))
+    webProj.addProperty(hasBudgetProp, CompanyModel.createTypedLiteral(150000.0, XSDDatatype.XSDdecimal))
+    newProdProj.addProperty(hasBudgetProp, CompanyModel.createTypedLiteral(250000.0, XSDDatatype.XSDdecimal))
+    erpProj.addProperty(hasBudgetProp, CompanyModel.createTypedLiteral(120000.0, XSDDatatype.XSDdecimal))
 
     // --- Verification (Optional) ---
     println("\n--- Verification ---")
@@ -93,6 +64,7 @@ object Lab1Foundational {
 
     // Write the model to console in Turtle format for inspection
     println("\n--- RDF Graph (Turtle format) ---")
-    JenaModels.printAsTurtle(m)
+    JenaModels.printAsTurtle(CompanyModel)
   }
+
 }
