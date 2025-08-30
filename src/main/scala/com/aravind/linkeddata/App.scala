@@ -1,6 +1,6 @@
-package com.aravind
+package com.aravind.linkeddata
 
-import com.aravind.rdf.JenaModels
+import com.aravind.linkeddata.rdf.JenaModels
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.reasoner.{Reasoner, ReasonerRegistry}
 import org.apache.jena.vocabulary.{RDF, RDFS, VCARD}

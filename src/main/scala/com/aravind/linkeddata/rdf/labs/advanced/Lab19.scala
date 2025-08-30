@@ -1,6 +1,6 @@
-package com.aravind.rdf.labs.advanced
+package com.aravind.linkeddata.rdf.labs.advanced
 
-import com.aravind.rdf.labs.Constants.{BaseDataURI, BaseOntologyURI}
+import com.aravind.linkeddata.Constants.{BaseDataURI, BaseOntologyURI}
 import org.apache.jena.datatypes.xsd.XSDDatatype
 import org.apache.jena.rdf.model.{Model, ModelFactory, Property}
 

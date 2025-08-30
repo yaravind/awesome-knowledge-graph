@@ -1,4 +1,4 @@
-package com.aravind.rdf
+package com.aravind.linkeddata.rdf
 
 import org.apache.jena.datatypes.DatatypeFormatException
 import org.apache.jena.datatypes.xsd.XSDDatatype

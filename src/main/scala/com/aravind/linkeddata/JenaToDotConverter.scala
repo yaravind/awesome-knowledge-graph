@@ -1,4 +1,4 @@
-package com.aravind
+package com.aravind.linkeddata
 
 import org.apache.jena.rdf.model._
 import org.apache.jena.sparql.vocabulary.FOAF

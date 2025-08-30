@@ -1,8 +1,8 @@
-package com.aravind.rdf.labs.basic
+package com.aravind.linkeddata.rdf.labs.basic
 
-import com.aravind.rdf.JenaModels.{printAsTriple, printAsTurtle, printAsXML}
-import com.aravind.rdf.JenaModels
-import com.aravind.rdf.labs.Constants.BaseDataURI
+import com.aravind.linkeddata.rdf.JenaModels
+import com.aravind.linkeddata.rdf.JenaModels.{printAsTriple, printAsTurtle, printAsXML}
+import com.aravind.linkeddata.Constants.BaseDataURI
 import org.apache.jena.rdf.model.ModelFactory
 
 /**

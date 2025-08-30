@@ -1,4 +1,4 @@
-package com.aravind.rdf.labs
+package com.aravind.linkeddata
 
 object Constants {
   val BaseDataURI = "https://github.com/yaravind/data/"

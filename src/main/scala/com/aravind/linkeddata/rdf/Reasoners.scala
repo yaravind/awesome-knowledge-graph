@@ -1,4 +1,4 @@
-package com.aravind.rdf
+package com.aravind.linkeddata.rdf
 
 import org.apache.jena.query.{Query, QueryFactory}
 import org.apache.jena.vocabulary.RDF

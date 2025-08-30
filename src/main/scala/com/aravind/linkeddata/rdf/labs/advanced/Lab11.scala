@@ -1,8 +1,8 @@
-package com.aravind.rdf.labs.advanced
+package com.aravind.linkeddata.rdf.labs.advanced
 
-import com.aravind.rdf.Reasoners.{SelectAllRDFType2, SelectAllRDFType3}
-import com.aravind.rdf.labs.Constants.BaseDataURI
-import com.aravind.rdf.{JenaModels, Queries}
+import com.aravind.linkeddata.rdf.{JenaModels, Queries}
+import com.aravind.linkeddata.rdf.Reasoners.{SelectAllRDFType2, SelectAllRDFType3}
+import com.aravind.linkeddata.Constants.BaseDataURI
 import org.apache.jena.datatypes.xsd.XSDDatatype
 import org.apache.jena.query.{QueryExecutionFactory, ResultSet}
 import org.apache.jena.rdf.model.{InfModel, ModelFactory}

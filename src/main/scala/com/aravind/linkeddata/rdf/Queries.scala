@@ -1,4 +1,4 @@
-package com.aravind.rdf
+package com.aravind.linkeddata.rdf
 
 import org.apache.jena.query._
 import org.apache.jena.rdf.model.Model

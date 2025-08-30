@@ -1,7 +1,7 @@
-package com.aravind.rdf.labs.basic
+package com.aravind.linkeddata.rdf.labs.basic
 
-import com.aravind.rdf.JenaModels._
-import com.aravind.rdf.labs.Constants.BaseDataURI
+import com.aravind.linkeddata.rdf.JenaModels._
+import com.aravind.linkeddata.Constants.BaseDataURI
 import org.apache.jena.rdf.model._
 
 /**
