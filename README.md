@@ -7,7 +7,7 @@ A curated list of awesome knowledge graph and linked data courses, tutorials, ar
 ## Exercises
 
 - [RDF - Basic](src/site/markdown/labs-rdf-rdfs-basic.md)
-- [RDF - Advanced](src/site/markdown/labs-rdf-rdfs-advanced)
+- [RDF - Advanced](src/site/markdown/labs-rdf-rdfs-advanced.md)
 
 ## Contributions are welcome
 
