@@ -24,8 +24,6 @@
 
 ### **Lab 11: Advanced RDFS Reasoning (Domain/Range Inference)
 
-** {#lab-11:-advanced-rdfs-reasoning-(domain/range-inference)}
-
 **Objective:** Deeper dive into how rdfs:domain and rdfs:range statements can lead to type inference when used with an
 RDFS reasoner.
 
@@ -38,7 +36,7 @@ RDFS reasoner.
 **Tasks:**
 
 1. **Create a Base Model:**
-    * Define a custom ontology prefix (e.g., ex: \<http://example.org/ontology\#\>).
+    * Define a custom ontology prefix (e.g., ex: <http://example.org/ontology\#\>).
     * Define classes: ex:Employee, ex:Department, ex:Project.
     * Define properties:
         * ex:worksFor (ObjectProperty)
