@@ -9,6 +9,8 @@ object CompanyOntology {
 
   val CompanyOntologyNS = Constants.BaseOntologyURI + "#company-ontology"
 
+  //DL in OWL_DL_MEM stands for Description Logic, which is a subset of OWL that balances expressiveness and
+  // computational properties.
   val CompanyModel: OntModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM)
   CompanyModel.setNsPrefix("comp", CompanyOntologyNS)
   CompanyModel.setNsPrefix("xsd", XSD.getURI)
@@ -17,6 +19,8 @@ object CompanyOntology {
   val empClass = CompanyModel.createClass(CompanyOntologyNS + "Employee")
   val deptClass = CompanyModel.createClass(CompanyOntologyNS + "Department")
   val projClass = CompanyModel.createClass(CompanyOntologyNS + "Project")
+  val deptHeadClass = CompanyModel.createClass(CompanyOntologyNS + "DepartmentHead")
+  deptHeadClass.addSuperClass(empClass)
 
   //3.1 Create object properties
   val worksInProp = CompanyModel.createObjectProperty(CompanyOntologyNS + "worksIn")

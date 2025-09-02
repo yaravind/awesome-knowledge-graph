@@ -2,10 +2,11 @@ package com.aravind.linkeddata.rdf
 
 import org.apache.jena.datatypes.DatatypeFormatException
 import org.apache.jena.datatypes.xsd.XSDDatatype
+import org.apache.jena.ontology.OntProperty
 import org.apache.jena.query.{Dataset, ResultSet}
 import org.apache.jena.rdf.model._
 import org.apache.jena.riot.{Lang, RDFDataMgr, RDFFormat}
-import org.apache.jena.vocabulary.RDFS
+import org.apache.jena.vocabulary.{OWL2, RDF, RDFS}
 
 import java.io.FileOutputStream
 import scala.collection.JavaConverters.asScalaIteratorConverter
@@ -262,5 +263,17 @@ object JenaModels {
 
   def getLabel(n: RDFNode) = {
     n.asResource().getProperty(RDFS.label).getObject.toString
+  }
+
+  /**
+   * To test if a property is irreflexive in Apache Jena 5.4.0, you need to check if the property has the type
+   * `OWL2.IrreflexiveProperty`` in the model. Jena’s OntProperty API does not provide a direct isIrreflexiveProperty
+   * method (unlike isTransitiveProperty), so you must check the RDF type manually.
+   *
+   * @param prop
+   * @return
+   */
+  def isIrreflexiveProperty(prop: OntProperty): Boolean = {
+    prop.hasProperty(RDF.`type`, OWL2.IrreflexiveProperty)
   }
 }
